@@ -111,7 +111,6 @@ uis.controller('uiSelectCtrl',
     if (!ctrl.disabled  && !ctrl.open) {
       if(!avoidReset) _resetSearchInput();
 
-      $scope.$broadcast('uis:activate');
 
       ctrl.open = true;
 
@@ -163,8 +162,12 @@ uis.controller('uiSelectCtrl',
   };
 
   ctrl.focusSearchInput = function (initSearchValue) {
-    ctrl.search = initSearchValue || ctrl.search;
+    if (initSearchValue) {
+      ctrl.search = initSearchValue.val() || ctrl.search;
+      initSearchValue.val('');
+    }
     ctrl.searchInput[0].focus();
+    $scope.$broadcast('uis:activate');
   };
 
   ctrl.findGroupByName = function(name) {
